@@ -1,11 +1,12 @@
 //
 //  CheckDataScreen.swift
-//  OTUSDZ2
+//  OTUSDZ
 //
 //  Created by Вячеслав Вовк on 23.09.2024.
 //
 
 import SwiftUI
+import OpenAPI5
 
 struct CheckDataScreen: View {
     var data: NewsProtocol

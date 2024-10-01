@@ -1,12 +1,13 @@
 //
 //  NewDetailScreen.swift
-//  OTUSDZ2
+//  OTUSDZ
 //
 //  Created by Вячеслав Вовк on 21.09.2024.
 //
 
 import SwiftUI
 import CachedAsyncImage
+import OpenAPI5
 
 struct NewDetailScreen: View {
    

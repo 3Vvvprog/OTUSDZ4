@@ -1,12 +1,13 @@
 //
 //  NewsViewModel.swift
-//  OTUSDZ2
+//  OTUSDZ
 //
 //  Created by Вячеслав Вовк on 19.09.2024.
 //
 
 import Foundation
 import SwiftUI
+import OpenAPI5
 
 enum NewsType: CaseIterable {
     case articles, blogs, reports
@@ -21,6 +22,7 @@ enum NewsType: CaseIterable {
     
 }
 
+
 struct NewProtocolCell {
     var new: NewsProtocol
     var isFav: Bool = false
@@ -31,6 +33,9 @@ struct NewProtocolCell {
 }
 
 final class NewsViewModel: ObservableObject {
+    
+    var networkService: NetworkServiceProtocol? = ServiceLocator.shared.getService()
+    
     @Published var loadedArticles: [NewProtocolCell] = []
     @Published var loadedBlogs: [NewProtocolCell] = []
     @Published var loadedReports: [NewProtocolCell] = []
@@ -39,25 +44,16 @@ final class NewsViewModel: ObservableObject {
     @Published var offsetReport = 0
     
     func initial() {
+        guard let networkService else { return }
         Task { @MainActor in
-            let result = try? await ArticlesAPI.articlesList(limit: 10, offset: offsetArticle)
-            if let result {
-                self.loadedArticles = result.results.map({ NewProtocolCell(new: $0) })
-            }
+            self.loadedArticles = await networkService.loadArticles(offset: offsetArticle).value
+        }
+        Task { @MainActor in
+            self.loadedBlogs = await networkService.loadBlogs(offset: offsetBlog).value
         }
         
         Task { @MainActor in
-            let result = try? await BlogsAPI.blogsList(limit: 10, offset: offsetArticle)
-            if let result {
-                self.loadedBlogs = result.results.map({ NewProtocolCell(new: $0) })
-            }
-        }
-        
-        Task { @MainActor in
-            let result = try? await ReportsAPI.reportsList(limit: 10, offset: offsetArticle)
-            if let result {
-                self.loadedReports = result.results.map({ NewProtocolCell(new: $0) })
-            }
+            self.loadedReports = await networkService.loadReports(offset: offsetReport).value
         }
     }
     
@@ -65,39 +61,36 @@ final class NewsViewModel: ObservableObject {
     
     func loadNextPageOfArticles() {
         offsetArticle += 10
-        Task {
-            let result = try? await ArticlesAPI.articlesList(limit: 10, offset: offsetArticle)
-            if let result {
-                DispatchQueue.main.async {
-                    self.loadedArticles.append(contentsOf: result.results.map({ NewProtocolCell(new: $0) }))
-                }
+        Task { @MainActor in
+            var result = await networkService?.loadArticles(offset: offsetArticle).value
+            if let result = result {
+                self.loadedArticles += result
             }
+            
         }
         print(offsetArticle)
     }
     
     func loadNextPageOfBlogs() {
         offsetBlog += 10
-        Task {
-            let result = try? await BlogsAPI.blogsList(limit: 10, offset: offsetBlog)
-            if let result {
-                DispatchQueue.main.async {
-                    self.loadedBlogs.append(contentsOf: result.results.map({ NewProtocolCell(new: $0) }))
-                }
+        Task { @MainActor in
+            var result = await networkService?.loadBlogs(offset: offsetBlog).value
+            if let result = result {
+                self.loadedBlogs += result
             }
+            
         }
         print(offsetBlog)
     }
     
     func loadNextPageOfReports() {
         offsetReport += 10
-        Task {
-            let result = try? await ReportsAPI.reportsList(limit: 10, offset: offsetReport)
-            if let result {
-                DispatchQueue.main.async {
-                    self.loadedReports.append(contentsOf: result.results.map({ NewProtocolCell(new: $0) }))
-                }
+        Task { @MainActor in
+            var result = await networkService?.loadReports(offset: offsetReport).value
+            if let result = result {
+                self.loadedReports += result
             }
+            
         }
         print(offsetReport)
     }

@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  OTUSDZ2
+//  OTUSDZ
 //
 //  Created by Вячеслав Вовк on 19.09.2024.
 //

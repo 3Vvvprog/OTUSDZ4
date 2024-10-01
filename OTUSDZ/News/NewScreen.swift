@@ -1,12 +1,13 @@
 //
 //  NewScreen.swift
-//  OTUSDZ2
+//  OTUSDZ
 //
 //  Created by Вячеслав Вовк on 19.09.2024.
 //
 
 import SwiftUI
 import CachedAsyncImage
+import OpenAPI5
 
 
 
