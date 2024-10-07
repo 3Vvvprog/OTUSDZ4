@@ -34,6 +34,11 @@
 			path = OTUSDZ;
 			sourceTree = "<group>";
 		};
+		3BFBFF0B2CB3CD8D0003F5FF /* News */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = News;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +60,7 @@
 				3B8871B92C9C703C00370CF9 /* OTUSDZ */,
 				3B8871B82C9C703C00370CF9 /* Products */,
 				3BCBB3AE2CAC5C2600133EDE /* Frameworks */,
+				3BFBFF0B2CB3CD8D0003F5FF /* News */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,6 +96,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				3B8871B92C9C703C00370CF9 /* OTUSDZ */,
+				3BFBFF0B2CB3CD8D0003F5FF /* News */,
 			);
 			name = OTUSDZ;
 			packageProductDependencies = (
