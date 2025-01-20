@@ -12,6 +12,8 @@ struct OTUSDZApp: App {
     
     init() {
         ServiceLocator.shared.addService(service: NetworkService() as NetworkServiceProtocol)
+        ServiceLocator.shared.addService(service: NetworkManager() as NetworkManagerProtocol)
+        ServiceLocator.shared.addService(service: NewsDataManager() as NewsDataManagerProtocol)
     }
     
     var body: some Scene {
@@ -20,3 +22,4 @@ struct OTUSDZApp: App {
         }
     }
 }
+
